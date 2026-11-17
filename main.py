@@ -8,7 +8,9 @@ def parse_fen(f):
   for ch in w:
    if ch.isdigit():c+=int(ch)
    else:b[r*8+c]=ch;c+=1
- return [b,p[1],p[2],int(p[3]) if p[3]!='-' else -1]
+ ep=p[3]
+ ep_idx=ord(ep[0])-ord('a')+(8-int(ep[1]))*8 if ep!='-' else -1
+ return [b,p[1],p[2],ep_idx]
 fs=lambda s:s%8
 rs=lambda s:s//8
 uc=lambda m:"abcdefgh"[m[1]]+str(8-m[0])+"abcdefgh"[m[3]]+str(8-m[2])+m[4]
@@ -83,8 +85,12 @@ def gm(P):
   if 'q' in c and b[3]=='.' and b[2]=='.' and b[1]=='.' and not ia(b,4,1) and not ia(b,3,1) and not ia(b,2,1):m.append((0,4,0,2,''))
  lg=[]
  for mv in m:
-  u=mk(P,mv);ksq=P[0].index('K' if w else 'k')
-  if not ia(P[0],ksq,not w):lg.append(mv)
+  u=mk(P,mv);kch='K' if w else 'k'
+  if kch in P[0]:
+   ksq=P[0].index(kch)
+   if not ia(P[0],ksq,not w):lg.append(mv)
+  else:
+   lg.append(mv)
   um(P,mv,u)
  return lg
 
@@ -96,7 +102,7 @@ def mk(P,m):
  if p.lower()=='k' and abs(fc2-fc1)==2:
   if fc2==6:cr=(fs+3,fs+1,b[fs+3]);b[fs+1]=b[fs+3];b[fs+3]='.'
   elif fc2==2:cr=(fs-4,fs-1,b[fs-4]);b[fs-1]=b[fs-4];b[fs-4]='.'
- b[ts]=('P' if q=='' and p=='p' else q.upper() if p=='p' else p) if q else p;b[fs]='.'
+ b[ts]=(q.upper() if t=='w' else q.lower()) if q else p;b[fs]='.'
  nc=c
  for ch,tk in [('K','KQ'),('k','kq')]:
   if p==ch:nc=nc.replace(ch,'').replace(tk[1],'')
@@ -165,8 +171,8 @@ def ng(P,d,alpha,beta,w):
    if fl==-1 and v<=alpha:return alpha
  ms=gm(P)
  if not ms:
-  ksq=P[0].index('K' if w else 'k')
-  if ia(P[0],ksq,not w):return -100000+d
+  kch='K' if w else 'k'
+  if kch in P[0] and ia(P[0],P[0].index(kch),not w):return -100000+d
   return 0
  ms.sort(key=lambda m: V.get(P[0][m[2]*8+m[3]].lower(),0)*10 - V.get(P[0][m[0]*8+m[1]].lower(),1),reverse=True)
  bv=-999999;bm=ms[0];fl=-1
