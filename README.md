@@ -1,5 +1,9 @@
 # Tiny Chess (tiny-chess-01) v7
 
+[![make.fun · tiny-chess-01](https://make.fun/badge/tiny-chess-01.svg)](https://make.fun/bounty/tiny-chess-01?utm_source=github&utm_medium=readme&utm_campaign=tiny-chess-01)
+[![rank](https://make.fun/badge/tiny-chess-01/annemuthoka01-coder/tiny-chess-01-jodenne29/rank.svg)](https://make.fun/bounty/tiny-chess-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=tiny-chess-01)
+[![reward](https://make.fun/badge/tiny-chess-01/annemuthoka01-coder/tiny-chess-01-jodenne29/reward.svg)](https://make.fun/bounty/tiny-chess-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=tiny-chess-01)
+
 Tiny Chess is an ultra-compact, high-performance UCI-compatible chess engine written in pure Python, engineered specifically for extreme code golf and robust tactical search performance.
 
 ## Version 7 Features
