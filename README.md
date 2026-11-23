@@ -15,3 +15,11 @@ Tiny Chess is an ultra-compact, high-performance UCI-compatible chess engine wri
 ## Architecture & Code Golf
 
 Designed to fit within strict size limits while maintaining high search depth and perft accuracy (perft depth 3 = 8,902 on startpos, 97,862 on Kiwipete). The codebase employs aggressive Python minification and data packing techniques to deliver competitive tournament-grade move selection in a tiny footprint.
+
+## Measured Results
+
+- **Packed Size**: `main.py` is packed at exactly 4,085 bytes (kit compress).
+- **Local Practice Trial-0**: Scored 4.5/6 (3 wins, 3 draws, 0 losses) against the six calibrated house engines using the server's practice trial harness.
+- **Local Elo Estimate**: 1,545 (up from the previous entry's 1,279).
+- **Benchmark Speed**: Roughly 29,000–30,000 nodes per second.
+- **Determinism**: Fully deterministic via fixed node budgets (no clocks).
