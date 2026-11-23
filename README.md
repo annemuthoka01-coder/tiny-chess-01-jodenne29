@@ -1,23 +1,17 @@
-# Tiny Chess 01 - Entry: `engine_golf6.py`
+# Tiny Chess (tiny-chess-01) v7
 
-This repository contains our competition entry for `tiny-chess-01`. The engine is implemented in readable form in `engine_golf6.py` and packed into `main.py` for submission.
+Tiny Chess is an ultra-compact, high-performance UCI-compatible chess engine written in pure Python, engineered specifically for extreme code golf and robust tactical search performance.
 
-## Engine Architecture & Features
+## Version 7 Features
 
-- **Search**: Alpha-beta minimax with iterative deepening and a strict node budget of **60,000 nodes** per move, ensuring completely deterministic behavior without clock dependency.
-- **Quiescence Search**: Handles in-check nodes at horizon (`depth <= 0`) to prevent horizon effects on mating lines, and evaluates stand-pat / captures when out of check.
-- **Transposition Table**: Stores entries as `(depth, value, flag, move)` supporting exact values, lower bounds (fail-high), and upper bounds (fail-low) with window adjustments on probe.
-- **Move Ordering**: Prioritizes transposition table moves followed by MVV-LVA capture ordering.
-- **Extensions**: Implements check extensions to prevent premature cutoff when a side to move is in check.
-- **Evaluation**: Uses classic Piece-Square Tables (PSTs) combined with standard piece values.
+- **Advanced Search**: Alpha-beta pruning with transposition table (TT) bound flags, killer move heuristics, null-move pruning, late move reduction (LMR), check extensions, and in-check quiescence search.
+- **Tapered Endgame Evaluation**: Sophisticated phase-blended pawn and king evaluation tables (EGP/EGT) with bishop pair evaluation, ensuring smooth transitions from opening to endgame.
+- **Deterministic Node Budget**: Fully deterministic node-budget taper based purely on game ply (`plies = (int(fen.split()[5]) - 1) * 2 + (1 if fen.split()[1] == 'b' else 0)`):
+  - Ply < 50: 150,000 nodes
+  - Ply 50–89: 100,000 nodes
+  - Ply ≥ 90: 60,000 nodes
+- **Fixed-Node Iterative Deepening**: Iterative deepening search up to depth 12 controlled strictly by the position-derived node budget—independent of external wall clocks for 100% replay reproducibility.
 
-## Packaging & Deployment
+## Architecture & Code Golf
 
-- **Source**: [`engine_golf6.py`](engine_golf6.py) contains the full uncompressed engine implementation and test harness.
-- **Packed Binary**: [`main.py`](main.py) is compiled and compressed from `engine_golf6.py` using `makefun compress` (staying strictly within the 4,096-byte limit at **3,913 bytes**).
-- **Driver**: Communicates with the competition server via the environment variable `MAKEFUN_ENV_URL` using `/game` and `/move` REST endpoints, complete with robust legal-move safety guards.
-
-## Practice Result
-
-- **Trial Outcome**: Verified practice trial-0 achieved **Elo 1279** (surpassing the qualifying floor of 1154).
-- **Gauntlet Record**: 1 win, 4 draws, and 1 loss across the 6-game house gauntlet (all games successfully completed without timeout or illegal moves).
+Designed to fit within strict size limits while maintaining high search depth and perft accuracy (perft depth 3 = 8,902 on startpos, 97,862 on Kiwipete). The codebase employs aggressive Python minification and data packing techniques to deliver competitive tournament-grade move selection in a tiny footprint.
